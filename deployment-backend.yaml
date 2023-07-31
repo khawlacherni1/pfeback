@@ -14,21 +14,17 @@ spec:
     spec:
       containers:
         - name: spring-boot-container
-          image: khawlacherni/myschool:latest   # Replace with your actual image name and version
+          image: khawlacherni/myschoolpfe:latest   # Replace with your actual image name and version
           ports:
             - containerPort: 8080   # Expose the port your Spring Boot app is running on
           env:
-            - name: DB_HOST
-              value: mysql-service   # Replace with the name of your MySQL Service
-            - name: DB_PORT
-              value: "3306"
-            - name: DB_NAME
-              value: myschool        # Replace with your actual database name
-            - name: DB_USERNAME
-              value: root            # Replace with your actual database username
-            - name: DB_PASSWORD
-              value: ""              # Replace with your actual database password
+            - name: JAVA_OPTS
+              value: "-Xmx150m" # Replace with your actual database password
+            - name: DB_URL
+              value: "jdbc:mysql://192.168.1.46:30473/jpetstore?allowPublicKeyRetrieval=true&useSSL=false
+"
 
+          imagePullPolicy: Always
 
 ---
 apiVersion: v1
@@ -40,6 +36,6 @@ spec:
     app: spring-boot
   ports:
     - protocol: TCP
-      port: 80   # Port on which the service will listen
+      port: 8081   # Port on which the service will listen
       targetPort: 8080   # Port on which the Spring Boot app is running
-
+  type: NodePort
